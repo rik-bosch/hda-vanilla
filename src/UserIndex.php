@@ -42,18 +42,23 @@ class UserIndex {
 
     public function getLinks(): array {
         $uri = '/api/users';
-        $links = [
-            'self' => [
-                'href' => $uri . $this->queryString($this->offset, $this->limit)
-            ],
-        ];
+        $next = $this->offset + $this->limit;
+        $last = $this->getLastOffset();
+        $links = [];
+
+        if ($last > 0) {
+            $links['first'] = [
+                'href' => $uri . $this->queryString(0),
+            ];
+        }
         if ($this->offset > 0) {
             $links['prev'] = [
                 'href' => $uri . $this->queryString($this->offset - $this->limit, $this->limit),
             ];
         }
-        $next = $this->offset + $this->limit;
-        $last = $this->getLastOffset();
+        $links['self'] = [
+            'href' => $uri . $this->queryString($this->offset, $this->limit),
+        ];
         if ($next <= $last) {
             $links['next'] = [
                 'href' => $uri . $this->queryString($next),
@@ -61,9 +66,6 @@ class UserIndex {
         }
 
         if ($last > 0) {
-            $links['first'] = [
-                'href' => $uri . $this->queryString(0),
-            ];
             $links['last'] = [
                 'href' => $uri . $this->queryString($last),
             ];
