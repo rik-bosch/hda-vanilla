@@ -10,7 +10,7 @@ async function doHypermediaCall(elem, url) {
       });
     }
 
-    for (const inputElem of elem.querySelectorAll("[data-change-param]")) {
+    for (const inputElem of elem.querySelectorAll("input[data-change-param]")) {
       inputElem.addEventListener("change", async () => {
         const newUrl = new URL(url);
         newUrl.searchParams.set(
@@ -24,6 +24,9 @@ async function doHypermediaCall(elem, url) {
 }
 
 window.addEventListener("load", async () => {
-  const elem = document.body.querySelector("[data-load-href]");
-  await doHypermediaCall(elem, elem.getAttribute("data-load-href"));
+  const elems = document.body.querySelectorAll("[data-load-href]");
+  for (const elem of elems) {
+    const url = window.location.origin + elem.getAttribute("data-load-href");
+    await doHypermediaCall(elem, url);
+  }
 });
