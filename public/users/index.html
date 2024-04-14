@@ -54,7 +54,7 @@
     </nav>
     <main>
         <h1>Users</h1>
-        <div class="user-data"></div>
+        <div data-load-href="/api/users"></div>
     </main>
 
     <script>
@@ -72,8 +72,8 @@
       }
 
       window.addEventListener('load', async () => {
-        const elem = document.body.querySelector('.user-data');
-        await doHypermediaCall(elem, '/api/users');
+        const elem = document.body.querySelector('[data-load-href]');
+        await doHypermediaCall(elem, elem.getAttribute('data-load-href'));
       })
     </script>
   </body>
