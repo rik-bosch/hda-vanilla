@@ -29,7 +29,7 @@ $userIndex = new UserIndex($data, $_GET);
     <thead>
         <tr>
             <?php foreach(array_keys($data[0]) as $key): ?>
-                <th><?php echo $key ?></th>
+                <th><a href="<?php echo $userIndex->getUrl() . '?sortBy=' . $key ?>"><?php echo $key ?></a></th>
             <?php endforeach ?>
         </tr>
     </thead>
