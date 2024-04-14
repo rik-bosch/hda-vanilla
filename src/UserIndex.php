@@ -19,6 +19,10 @@ class UserIndex {
         return array_slice($this->data, $this->offset, $this->limit);
     }
 
+    public function getLimit(): int {
+        return $this->limit;
+    }
+
     private function queryString(int $o): string {
         $params = [];
         if ($o > 0) {
@@ -40,34 +44,39 @@ class UserIndex {
             : $dataCount - $this->limit;
     }
 
+    private function getUrl() {
+        $path = explode('?', $_SERVER['REQUEST_URI'])[0];
+        return "http://{$_SERVER['HTTP_HOST']}{$path}";
+    }
+
     public function getLinks(): array {
-        $uri = '/api/users';
+        $url = $this->getUrl();
         $next = $this->offset + $this->limit;
         $last = $this->getLastOffset();
         $links = [];
 
         if ($last > 0) {
             $links['first'] = [
-                'href' => $uri . $this->queryString(0),
+                'href' => $url . $this->queryString(0),
             ];
         }
         if ($this->offset > 0) {
             $links['prev'] = [
-                'href' => $uri . $this->queryString($this->offset - $this->limit, $this->limit),
+                'href' => $url . $this->queryString($this->offset - $this->limit, $this->limit),
             ];
         }
         $links['self'] = [
-            'href' => $uri . $this->queryString($this->offset, $this->limit),
+            'href' => $url . $this->queryString($this->offset, $this->limit),
         ];
         if ($next <= $last) {
             $links['next'] = [
-                'href' => $uri . $this->queryString($next),
+                'href' => $url . $this->queryString($next),
             ];
         }
 
         if ($last > 0) {
             $links['last'] = [
-                'href' => $uri . $this->queryString($last),
+                'href' => $url . $this->queryString($last),
             ];
         }
         return $links;

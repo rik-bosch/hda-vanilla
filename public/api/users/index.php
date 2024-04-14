@@ -11,6 +11,15 @@ $userIndex = new UserIndex($data, $_GET);
     <?php endforeach ?>
 </ul>
 
+<div class="alterations">
+    <label for="set-limit">Limit</label>
+    <input id="set-limit"
+            type="number"
+            value="<?php echo $userIndex->getLimit() ?>"
+            data-change-param="limit"
+    >
+</div>
+
 <table>
     <thead>
         <tr>
