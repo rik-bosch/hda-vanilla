@@ -11,7 +11,10 @@ $userIndex = new UserIndex($data, $_GET);
     <?php endforeach ?>
 </ul>
 
+<hr>
+
 <div class="alterations">
+    <p>Offset: <?php echo $userIndex->getOffset() ?></p>
     <label for="set-limit">Limit</label>
     <input id="set-limit"
             type="number"
@@ -19,6 +22,8 @@ $userIndex = new UserIndex($data, $_GET);
             data-change-param="limit"
     >
 </div>
+
+<hr>
 
 <table>
     <thead>

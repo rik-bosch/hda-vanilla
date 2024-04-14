@@ -19,6 +19,10 @@ class UserIndex {
         return array_slice($this->data, $this->offset, $this->limit);
     }
 
+    public function getOffset(): int {
+        return $this->offset;
+    }
+
     public function getLimit(): int {
         return $this->limit;
     }
