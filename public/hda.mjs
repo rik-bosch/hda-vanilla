@@ -20,10 +20,23 @@ async function doHypermediaCall(elem, url) {
         await doHypermediaCall(elem, newUrl.href);
       });
     }
+  } else {
+    console.log("API error", response);
+    elem.dispatchEvent(new Event("apiError", { bubbles: true }));
   }
 }
 
+function handleGlobalApiError() {
+  const msgElem = document.getElementById("error-message");
+  msgElem.textContent = "An API error occurred";
+  msgElem.style.display = "block";
+  setTimeout(() => {
+    msgElem.style.display = "none";
+  }, 2000);
+}
+
 window.addEventListener("load", async () => {
+  document.body.addEventListener("apiError", handleGlobalApiError);
   const elems = document.body.querySelectorAll("[data-load-href]");
   for (const elem of elems) {
     const url = window.location.origin + elem.getAttribute("data-load-href");
